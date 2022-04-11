@@ -1,0 +1,11 @@
+action(inc(R), 
+    if([register(R, X)]), 
+    '+'([register(R, X + 1)]), '-'([register(R, X]))).
+
+action(dec(R), 
+    if([register(R, X)]), 
+    '+'([register(R, X - 1)]), '-'([register(R, X]))).
+
+?- strips([register(r1, 0)], [register(r1, 0 - 1 - 1)], Plan). 
+
+% expected: Plan / [dec(eax), dec(eax)]

@@ -1,0 +1,6 @@
+action(
+    stack(X, Y),
+    if([clear(Y), holding(X)]),
+    '+'([on(X,Y), clear(X), handempty]),
+    '-'([clear(Y), holding(X)])
+).

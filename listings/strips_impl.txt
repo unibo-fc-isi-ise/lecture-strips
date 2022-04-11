@@ -1,0 +1,16 @@
+% strips_impl(+State, +Goal, +InitialPlan, +BadActions, -NextState, -FinalPlan)
+strips_impl(State, Goal, Plan, BadActions, FinalState, FinalPlan) :-
+	write("Need to reach "), write(Goal), write(" from "), write(State), 
+		write(" without using "), write(BadActions), indent, newline,
+	/* TODO select an unsatisfied SubGoal in Goal */
+	write('Attempting goal:  '), write(SubGoal), newline,
+	/* TODO select an Action which may produce SubGoal */
+	write('Choosing Action:  '), write(Action), newline,
+	/* TODO ensure the selected Action is not blacklisted */
+	write("Action "), write(Action), write(" is not a bad action"), newline,
+	/* TODO check if Action can be applied to the current state */
+	/* TODO if not, find a SubPlan making Action applicable, __blacklisting Action__ */
+	/* TODO if such a SubPlan exists, let TmpState be the state
+		 reached by applying SubPlan to State */
+	apply(TmpState, Action, NewState),
+	strips_impl(NewState, Goal, [Action | SubPlan], BadActions, FinalState, FinalPlan).

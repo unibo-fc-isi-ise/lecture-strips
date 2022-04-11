@@ -1,0 +1,15 @@
+?- strips(
+    [ontable(a), ontable(b), clear(a), clear(b), handempty],
+    [on(b, a), clear(b)],
+    Plan
+).
+% expected: Plan / [pick(b), stack(b,a)]
+
+
+?- strips(
+    [ontable(a), ontable(b), ontable(c),
+        clear(a), clear(b), clear(c), handempty],
+    [on(c, b), on(b, a), clear(c)],
+    Plan
+).
+% expected: Plan / [pick(b), stack(b,a), pick(c), stack(c,b)]

@@ -1,0 +1,16 @@
+planning
+├── build.gradle.kts
+├── gradle.properties
+├── settings.gradle
+└── strips
+    ├── build.gradle.kts
+    ├── gradle.properties           <-- notice this
+    └── src
+        └── main
+            ├── java
+            │   └── ...
+            │       └── Main.java   <-- notice this
+            └── resources
+                ├── BlockWorld.pl   <-- notice these
+                ├── Strips.pl
+                └── Utils.pl

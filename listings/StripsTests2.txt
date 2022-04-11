@@ -1,0 +1,6 @@
+?- strips(
+    [on(c, b),on(b,a),ontable(a),clear(c),handempty]
+    [on(a, b),on(b,c),ontable(c),clear(a)]
+    Plan
+).
+% [unstack(c,b),put(c),unstack(b,a),stack(b,c),pick(a),stack(a,b)]
