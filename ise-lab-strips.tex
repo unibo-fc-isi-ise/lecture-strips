@@ -14,7 +14,7 @@
 % version
 \newcommand{\versionmajor}{1}
 \newcommand{\versionminor}{0}
-\newcommand{\versionpatch}{0}
+\newcommand{\versionpatch}{1}
 \newcommand{\version}{\versionmajor.\versionminor.\versionpatch}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title[\currentLab{} -- STRIPS in Prolog]{Planning in STRIPS with Prolog}
@@ -92,9 +92,10 @@ The \texttt{strips/} subproject is composed by \ldots{}
 \vfill
 %
 \begin{itemize}
-    \item the \texttt{it.unibo.as.planning.\alert{Main}} Java class, essentially implementing a simple REPL with some handy defaults
+    \item the \texttt{it.unibo.ise.lab.strips.\alert{Main}} Kotlin class
     %
     \begin{itemize}
+		\item essentially implementing a simple REPL with some handy defaults
         \item you are not required to edit this
     \end{itemize}
 
@@ -118,7 +119,7 @@ The \texttt{strips/} subproject is composed by \ldots{}
 
 
 %/////////
-\begin{frame}{The \texttt{it.unibo.as.planning.\alert{Main}} REPL Behaviour}
+\begin{frame}{The \texttt{it.unibo.ise.lab.strips.\alert{Main}} REPL Behaviour}
 
 \begin{itemize}
     \item upon start up, the aforementioned \texttt{Main} program loads both the \texttt{Strips.pl} and \texttt{Utils.pl} theories
@@ -261,7 +262,7 @@ In STRIPS \ldots
 	%
 %	where $mgu$ is the \emph{most general unifier} function, returning a substitution $\theta$ which can make $P$ equals to $S'$ when applied to $P$.
 	%
-	which implies $P \theta \subseteq S$.
+	which implies $P / \theta \subseteq S$.
 \end{block}
 %
 \begin{itemize}
@@ -275,7 +276,7 @@ In STRIPS \ldots
 \begin{block}{Action application}
 	Assuming some action $\alpha = \langle N, P, A, D \rangle$ is applicable to some state $S_1$ through $\theta$, it can be applied to $S_1$ by means of the following function:
 	\begin{center}
-	 	$apply(S_1, \alpha) = S_2 = \alert{(S_1 - D \theta) \cup A \theta} $
+	 	$apply(S_1, \alpha) = S_2 = \alert{(S_1 - D / \theta) \cup A / \theta} $
 	\end{center}
 	which, essentially, formally describes the STRIPS assumption
 \end{block}
@@ -290,7 +291,9 @@ In STRIPS \ldots
 
 Using your Prolog IDE, or some pencil \& paper (i.e., nothing to run here)
 
-\begin{block}{Exercise 0a -- The Block World}
+\startExercise
+
+\begin{block}{Exercise \currentExercise{}a -- The Block World}
    	Design the states of a world made of \emph{named} \alert{blocks}.
    	Blocks may either be on the \alert{table}, or stack'd up\alert{on} each others.
    	Their top faces may thus \alert{clear} or occupied by another block.
@@ -298,13 +301,13 @@ Using your Prolog IDE, or some pencil \& paper (i.e., nothing to run here)
    	It may be either \alert{holding} a block or \alert{free}.
 \end{block}
 
-\begin{block}{Exercise 0b -- The Register Machine}
+\begin{block}{Exercise \currentExercise{}b -- The Register Machine}
 	Design the states of a \emph{register machine} made up of a number of \emph{named} \alert{registers}, each one storing an integer value.
 \end{block}
 
 \framebreak
 
-\begin{block}{Exercise 0c -- Alice and Bob's City}
+\begin{block}{Exercise \currentExercise{}c -- Alice and Bob's City}
 	\begin{columns}
 		\begin{column}{.7\linewidth}
 			Consider the Alice's city topology shown on the right, where vertices represent places, and edges represent roads.
@@ -371,7 +374,7 @@ Consider for instance state $S =\ $\prolog{[on(a,c),ontable(b),ontable(c),clear(
 \end{block}
 
 \begin{exampleblock}{Consider for instance \texttt{BlockWorld.pl}}
-	\lstinputlisting[frame=none,xleftmargin=.40\linewidth, xrightmargin=.20\linewidth,style=Prolog-cool,basicstyle=\scriptsize\ttfamily]{./listings/BlockWorld.txt}
+	\lstinputlisting[frame=none,xleftmargin=.20\linewidth, xrightmargin=.20\linewidth,style=Prolog-cool,basicstyle=\scriptsize\ttfamily]{./listings/BlockWorld.txt}
 \end{exampleblock}
 
 \end{frame}
@@ -386,30 +389,30 @@ Using your Prolog IDE, or some pencil \& paper (i.e., nothing to run here)
 
 \begin{block}{Exercise 1a -- Actions for the Block World (\texttt{BlockWorld.pl})}
    	\begin{description}
-   	    \item[\texttt{stack}] | if a block's top face is clear, and the robotic hand is holding another block, this action let the hand put the letter block on top of the former
+   	    \item[\texttt{stack}] --- if a block's top face is clear, and the robotic hand is holding another block, this action let the hand put the letter block on top of the former
 
-   	    \item[\texttt{unstack}] | if a block's top face is clear, and it is laying on top of another block, and the robotic hand is free, this action let the hand grab the former block
+   	    \item[\texttt{unstack}] --- if a block's top face is clear, and it is laying on top of another block, and the robotic hand is free, this action let the hand grab the former block
 
-   	    \item[\texttt{pick}] | if a block's top face is clear, and it is laying on the table, and the robotic hand is free, this action let the hand grab that block
+   	    \item[\texttt{pick}] --- if a block's top face is clear, and it is laying on the table, and the robotic hand is free, this action let the hand grab that block
 
-   	    \item[\texttt{put}] | if the robotic hand is holding a block, this action let the hand put such block on the table
+   	    \item[\texttt{put}] --- if the robotic hand is holding a block, this action let the hand put such block on the table
    	\end{description}
 \end{block}
 
 \begin{block}{Exercise 1b -- Actions for the Register Machine (\texttt{Registers.pl})}
    	\begin{description}
-   	    \item[\texttt{inc}] | increases a register by one, given the register name
-   	    \item[\texttt{dec}] | decreases a register by one, given the register name
-   	    \item[\texttt{sum}] | sums up the values of two registers, given their names, and stores the resulting value into a third register, given its name
-   	    \item[\texttt{sub}] | like \texttt{sum}, but subtracting
+   	    \item[\texttt{inc}] --- increases a register by one, given the register name
+   	    \item[\texttt{dec}] --- decreases a register by one, given the register name
+   	    \item[\texttt{sum}] --- sums up the values of two registers, given their names, and stores the resulting value into a third register, given its name
+   	    \item[\texttt{sub}] --- like \texttt{sum}, but subtracting
    	\end{description}
 \end{block}
 
 \begin{block}{Exercise 1c -- Actions for Alice's City (\texttt{City.pl})}
    	\begin{description}
-   	    \item[\texttt{getin}] | let either Alice or Bob enter the car, if he / she is not yet in the car, and he / she is in the same place the car currently is
-   	    \item[\texttt{getout}] | let either Alice or Bob exit the car in the place where the car currently is, assuming he / she is already in the car
-   	    \item[\texttt{driveto}] | moves the car from its current position to some destination, assuming that Alice is in the car -- since Bob has no driving license -- and that the destination is reachable from the car's current position
+   	    \item[\texttt{getin}] --- let either Alice or Bob enter the car, if he / she is not yet in the car, and he / she is in the same place the car currently is
+   	    \item[\texttt{getout}] --- let either Alice or Bob exit the car in the place where the car currently is, assuming he / she is already in the car
+   	    \item[\texttt{driveto}] --- moves the car from its current position to some destination, assuming that Alice is in the car -- since Bob has no driving license -- and that the destination is reachable from the car's current position
    	\end{description}
 \end{block}
 
@@ -438,9 +441,9 @@ Using your Prolog IDE, or some pencil \& paper (i.e., nothing to run here)
 
 		\item its implementation relies on the set operations contained in \texttt{Utils.pl}
 
-		\vfill
-
-		\item \ldots{} and on a number of accessor relations contained in \texttt{Strips.pl}
+%		\vfill
+%
+%		\item \ldots{} and on a number of accessor relations contained in \texttt{Strips.pl}
 
 		\vfill
 
@@ -484,33 +487,33 @@ Using your Prolog IDE, or some pencil \& paper (i.e., nothing to run here)
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[c]{The Provided Rules in \texttt{Strips.pl}}
-
-	The \texttt{Strips.pl} library comes with a number of already implemented rules, such as:
-	%
-	\begin{itemize}
-		\item accessors for preconditions:
-		%
-		\begin{itemize}
-			\item \prolog{preconditions(+ActionName, -PreconditionList)} retrieves all the pre-conditions of an action, given its name
-			\item \prolog{precondition(+ActionName, -Precondition)} selects one pre-condition from an action, given its name
-		\end{itemize}
-
-		\item accessors for positive post-conditions:
-		%
-		\begin{itemize}
-			\item \prolog{positive_effects(+ActionName, -AddList)} retrieves all the positive post-conditions of an action, given its name
-			\item \prolog{positive_effect(+ActionName, -Effect)} selects one positive post-condition from an action, given its name
-		\end{itemize}
-
-		\item accessors for negative post-conditions:
-		%
-		\begin{itemize}
-			\item \prolog{negative_effects(+ActionName, -DeleteList)} retrieves all the negative post-conditions of an action, given its name
-			\item \prolog{negative_effect(+ActionName, -Effect)} selects one negative post-condition from an action, given its name
-		\end{itemize}
-	\end{itemize}
-\end{frame}
+%\begin{frame}[c]{The Provided Rules in \texttt{Strips.pl}}
+%
+%	The \texttt{Strips.pl} library comes with a number of already implemented rules, such as:
+%	%
+%	\begin{itemize}
+%		\item accessors for preconditions:
+%		%
+%		\begin{itemize}
+%			\item \prolog{preconditions(+ActionName, -PreconditionList)} retrieves all the pre-conditions of an action, given its name
+%			\item \prolog{precondition(+ActionName, -Precondition)} selects one pre-condition from an action, given its name
+%		\end{itemize}
+%
+%		\item accessors for positive post-conditions:
+%		%
+%		\begin{itemize}
+%			\item \prolog{positive_effects(+ActionName, -AddList)} retrieves all the positive post-conditions of an action, given its name
+%			\item \prolog{positive_effect(+ActionName, -Effect)} selects one positive post-condition from an action, given its name
+%		\end{itemize}
+%
+%		\item accessors for negative post-conditions:
+%		%
+%		\begin{itemize}
+%			\item \prolog{negative_effects(+ActionName, -DeleteList)} retrieves all the negative post-conditions of an action, given its name
+%			\item \prolog{negative_effect(+ActionName, -Effect)} selects one negative post-condition from an action, given its name
+%		\end{itemize}
+%	\end{itemize}
+%\end{frame}
 
 \begin{frame}[c]{Implementing the \texttt{apply/3} relation}
 	\begin{block}{Exercise 2 -- The \texttt{apply/3} relation}
@@ -522,21 +525,21 @@ Using your Prolog IDE, or some pencil \& paper (i.e., nothing to run here)
 		For instance, according to our modelling of the Block World:
 		%
 		\begin{itemize}
-			\item \prolog{apply([ontable(a), clear(a), handempty], pick(a), S)}
+			\item \plil{apply([ontable(a), clear(a), handempty], pick(a), S)}
 			%
 			\begin{itemize}
-				\item produces \prolog{S / [holding(a)]}
+				\item produces \plil{S / [holding(a)]}
 			\end{itemize}
 
-			\item \prolog{apply([ontable(a), clear(a), handempty], put(a), S)} fails
+			\item \plil{apply([ontable(a), clear(a), handempty], put(a), S)} fails
 
-			\item \prolog{apply([ontable(a),clear(b),on(b,a),handempty],unstack(b,X),S)}
+			\item \plil{apply([ontable(a),clear(b),on(b,a),handempty],unstack(b,X),S)}
 			%
 			\begin{itemize}
-				\item produces \prolog{S / [ontable(a), clear(a), holding(a)]}
+				\item produces \plil{S / [ontable(a), clear(a), holding(a)]}
 			\end{itemize}
 
-			\item \prolog{apply([ontable(a),clear(b),on(b, a),handempty],stack(b,X),S)}
+			\item \plil{apply([ontable(a),clear(b),on(b, a),handempty],stack(b,X),S)}
 			%
 			\begin{itemize}
 				\item fails
@@ -621,10 +624,10 @@ Let
     			\While{$Stack \equiv [\alert{H} \mid Tail]$} \Comment{while $Stack$ is not empty}
     				% \State $X \leftarrow head(Stack)$
     				\If{$\exists F \in State : mgu(\alert{H}, F) = \theta$}
-    					\State $Stack \leftarrow Tail \cdot \theta$ \Comment{Pop}
+    					\State $Stack \leftarrow Tail / \theta$ \Comment{Pop}
     				\ElsIf{$\exists N \in Actions : \exists E \in post_{+}(N) : mgu(\alert{H}, E) = \theta$} \Comment{\alert{CP}}
     					%\State $Stack \leftarrow tail(Stack)\theta$
-    					\State $Stack \leftarrow [pre(N), N \mid Tail] \cdot \theta$  \Comment{Pop; Push($N$); Push($pre(N)$)}
+    					\State $Stack \leftarrow [pre(N), N \mid Tail] / \theta$  \Comment{Pop; Push($N$); Push($pre(N)$)}
     				\ElsIf{$\alert{H} \equiv G_1 \wedge \ldots \wedge G_m$}
     					\State $Stack \leftarrow [G_1, \ldots, G_m \mid Tail]$ \Comment Pop, Push($G_1$), \ldots, Push($G_m$), \alert{CP}
     				\ElsIf{$\alert{H} \in Actions$}
@@ -1476,8 +1479,10 @@ The STRIPS algorithm may diverge in several situations, e.g.:
 \subsection{The Algorithm}
 
 \begin{frame}[c]{Implementing STRIPS in Prolog I}
+	
+	\startExercise
 
-    \begin{block}{Exercise 3}
+    \begin{block}{Exercise \currentExercise}
         Complete the \prolog{strips_impl/6} predicate in \texttt{Strips.pl}
     \end{block}
 	%
@@ -1503,7 +1508,7 @@ The STRIPS algorithm may diverge in several situations, e.g.:
 
             \item notice that a correct implementation of the \prolog{strips/3} predicate should enumerate all possible plans
 
-            \item Depending on your implementation, the firstly produced solution may differ from the teacher's one
+            \item depending on your implementation, the firstly produced solution may differ from the teacher's one
             %
             \begin{itemize}
                 \item in that case, just ensure the provided solution makes sense
@@ -1555,8 +1560,10 @@ The STRIPS algorithm may diverge in several situations, e.g.:
 \end{frame}
 
 \begin{frame}[c]{STRIPS + IDDFS + Prolog = Exercise}
+	
+	\startExercise
 
-	\begin{block}{Exercise 4}
+	\begin{block}{Exercise \currentExercise}
 		Edit the \prolog{strips/3} and \prolog{strips_impl/6} rules in \texttt{Strips.pl} in such a way that your STRIPS implementation performs an IDDFS for plans, up to \prolog{max_depth(MD)}
 		%
 		\begin{itemize}
