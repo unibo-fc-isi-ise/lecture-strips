@@ -14,7 +14,7 @@
 % version
 \newcommand{\versionmajor}{1}
 \newcommand{\versionminor}{0}
-\newcommand{\versionpatch}{2}
+\newcommand{\versionpatch}{3}
 \newcommand{\version}{\versionmajor.\versionminor.\versionpatch}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title[\currentLab{} -- STRIPS in Prolog]{Planning in STRIPS with Prolog}
@@ -1092,13 +1092,37 @@ Let
 \end{frame}
 
 
-\begin{frame}[c]{The STRIPS Algorithm -- Example}
+% \begin{frame}[c]{The STRIPS Algorithm -- Example}
+% \small
+
+% \begin{exampleblock}{Step \nextStripsExampleStep{} \hfill $Plan = [\mathtt{unstack(c,a)}]$}
+%     \begin{columns}[t]
+%         \begin{column}{.30\linewidth}\centering
+%             \alert{\texttt{[clear(b), clear(a), ontable(a), ontable(b), holding(c)]}}
+%         \end{column}
+%         \begin{column}{.50\linewidth}\centering
+%             \begin{itemize}
+%                 \item \texttt{on(a,c)}
+%                 % \item \texttt{on(a,c) $\wedge$ on(c,b)}
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{.10\linewidth}\centering
+%             \lstinputlisting{./listings/strips-example.1.txt}
+%         \end{column}
+%     \end{columns}
+% \end{exampleblock}
+
+% \end{frame}
+
+
+\begin{frame}%[allowframebreaks]
+\frametitle{The STRIPS Algorithm -- Example}
 \small
 
-\begin{exampleblock}{Step \nextStripsExampleStep{} \hfill $Plan = [\mathtt{unstack(c,a)}]$}
+\begin{exampleblock}{Step \nextStripsExampleStep{} \hfill $Plan = [\mathtt{stack(c,b),unstack(c,a)}]$}
     \begin{columns}[t]
         \begin{column}{.30\linewidth}\centering
-            \alert{\texttt{[clear(b), clear(a), ontable(a), ontable(b), holding(c)]}}
+            \alert{\texttt{[on(c, b), clear(c), clear(a), ontable(a), ontable(b), handempty]}}
         \end{column}
         \begin{column}{.50\linewidth}\centering
             \begin{itemize}
@@ -1107,36 +1131,12 @@ Let
             \end{itemize}
         \end{column}
         \begin{column}{.10\linewidth}\centering
-            \lstinputlisting{./listings/strips-example.1.txt}
+            \lstinputlisting{./listings/strips-example.2.txt}
         \end{column}
     \end{columns}
 \end{exampleblock}
 
 \end{frame}
-
-
-% \begin{frame}%[allowframebreaks]
-% \frametitle{The STRIPS Algorithm -- Example}
-% \small
-
-% \begin{exampleblock}{Step \nextStripsExampleStep{} \hfill $Plan = [\mathtt{stack(c,b),unstack(c,a)}]$}
-% 	\begin{columns}[t]
-% 		\begin{column}{.30\linewidth}\centering
-% 			\texttt{[on(c, b), clear(c), clear(a), ontable(a), ontable(b), handempty]}
-% 		\end{column}
-% 		\begin{column}{.50\linewidth}\centering
-% 			\begin{itemize}
-% 				\item \texttt{on(a,c)}
-% 				% \item \texttt{on(a,c) $\wedge$ on(c,b)}
-% 			\end{itemize}
-% 		\end{column}
-% 		\begin{column}{.10\linewidth}\centering
-% 			\lstinputlisting{./listings/strips-example.2.txt}
-% 		\end{column}
-% 	\end{columns}
-% \end{exampleblock}
-
-% \end{frame}
 
 
 \begin{frame}[c]{The STRIPS Algorithm -- Example}
